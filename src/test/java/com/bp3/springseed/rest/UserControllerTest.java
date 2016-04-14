@@ -53,12 +53,12 @@ public class UserControllerTest {
 
         List<User> users = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<User>>(){});
         assertNotNull(users);
-        assertEquals(users.size(), 3);
+        assertEquals(users.size(), 1);
     }
 
     @Test
     public void getUser() throws Exception {
-        MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/api/user/3").accept(MediaType.APPLICATION_JSON))
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/api/user/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
         String content = result.getResponse().getContentAsString();

@@ -2,16 +2,23 @@ package com.bp3.springseed.service;
 
 import com.bp3.springseed.model.User;
 
-import java.util.List;
+import java.util.Date;
 
 /**
  * @author dparish
  */
 public interface UserService {
 
-    boolean checkPassword(String password);
-
     User getUser(long id);
 
-    List<User> getUsers();
+    /**
+     * Retrieve all users younger than the given date.
+     * @param date the date to check
+     * @return iterable of younger users
+     */
+    Iterable<User> getYoungerUsers(Date date);
+
+    Iterable<User> getUsers();
+
+    User addUser(User user);
 }

@@ -1,51 +1,49 @@
 package com.bp3.springseed.service;
 
 import com.bp3.springseed.model.User;
-import org.fluttercode.datafactory.impl.DataFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.bp3.springseed.repo.UserRepository;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 /**
  * @author dparish
  */
 @Service
 public class UserServiceImpl implements UserService {
-    private DataFactory dataFactory = new DataFactory();
 
-    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private UserRepository userRepository;
 
-    public UserServiceImpl() {
-        logger.warn("In constructor");
-    }
-
-    @Override
-    public boolean checkPassword(String password) {
-        return false;
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public User getUser(long id) {
-        return makeUser(id);
+        return userRepository.findOne(id);
     }
 
     @Override
-    public List<User> getUsers() {
-        List<User> users = new ArrayList<User>();
-        users.add(makeUser(0l));
-        users.add(makeUser(1l));
-        users.add(makeUser(2l));
-        return users;
+    public Iterable<User> getUsers() {
+        return userRepository.findAll();
     }
 
-    private User makeUser(long id) {
-        return new User()
-                .setId(id)
-                .setFirstName(dataFactory.getFirstName())
-                .setLastName(dataFactory.getLastName())
-                .setBirthDate(dataFactory.getBirthDate());
+    @Override
+    public User addUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public Iterable<User> getYoungerUsers(final Date date) {
+        return Iterables.filter(userRepository.findAll(), new Predicate<User>() {
+            @Override
+            public boolean apply(User input) {
+                return input.getBirthDate().after(date);
+            }
+        });
     }
 }

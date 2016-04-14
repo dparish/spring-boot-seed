@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.3.RELEASE")
     }
 }
 
@@ -11,8 +11,8 @@ apply plugin: 'java'
 apply plugin: 'spring-boot'
 
 jar {
-    baseName = 'gs-spring-boot'
-    version =  '0.1.0'
+    baseName = "gs-spring-boot"
+    version =  "0.1.0"
 }
 
 repositories {
@@ -23,17 +23,13 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web") {
-        exclude module: "spring-boot-starter-tomcat"
-    }
-    compile 'org.fluttercode.datafactory:datafactory:0.8'
-    compile("org.springframework.boot:spring-boot-starter-jetty")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile "org.springframework.boot:spring-boot-starter-freemarker"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "org.flywaydb:flyway-core"
+    compile "com.h2database:h2"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile 'com.google.guava:guava:19.0'
 
-    testCompile("org.springframework.boot:spring-boot-starter-test")
-    testCompile("junit:junit")
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+    testCompile "junit:junit"
 }
